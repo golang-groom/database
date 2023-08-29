@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/boltdb/bolt"
-	"github.com/pspiagicw/colorlog"
+	"github.com/pspiagicw/goreland"
 )
 
 type Package struct {
@@ -33,22 +33,22 @@ type GroomDatabase struct {
 func getDatabasePath() (string, error) {
 	location, exists := os.LookupEnv("XDG_DATA_HOME")
 	if !exists {
-		colorlog.LogInfo("Not using $XDG_DATA_HOME, env variable not present")
+		goreland.LogInfo("Not using $XDG_DATA_HOME, env variable not present")
 		homedir, err := os.UserHomeDir()
 		if err != nil {
-			colorlog.LogError("Error while getting $HOME directory: %v", err)
+			goreland.LogError("Error while getting $HOME directory: %v", err)
 			return "", fmt.Errorf("Error while getting $HOME directory: %v", err)
 		}
 		d := filepath.Join(homedir, ".local")
 		d = filepath.Join(d, "share")
 		d = filepath.Join(d, "groom")
 		d = filepath.Join(d, "db")
-		colorlog.LogInfo("Using %s for database", d)
+		goreland.LogInfo("Using %s for database", d)
 		return d, nil
 	}
 	d := filepath.Join(location, "groom")
 	d = filepath.Join(d, "db")
-	colorlog.LogInfo("Using %s for database", d)
+	goreland.LogInfo("Using %s for database", d)
 	return d, nil
 
 }
